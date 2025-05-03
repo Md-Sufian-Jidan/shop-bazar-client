@@ -3,6 +3,7 @@ import Main from "../Layouts/Main";
 import Home from "../Pages/Home/Home/Home";
 import Shop from "../Pages/Shop/Shop";
 import CategoriesPage from "../Pages/CategoriesPage/CategoriesPage";
+import AboutPage from "../Pages/AboutPage/AboutPage";
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
             {
                 path: '/categories',
                 element: <CategoriesPage />
+            },
+            {
+                path: '/about',
+                element: <AboutPage />
             },
         ]
     },
