@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 const Hero = () => {
     return (
         <div
-            className="bg-cover bg-center min-h-[70vh] flex items-center justify-center"
-            style={{ backgroundImage: `url('https://source.unsplash.com/1600x900/?shopping,store')` }}
+            className="bg-cover bg-center min-h-[91vh] flex items-center justify-center"
+            style={{ backgroundImage: `url('https://i.ibb.co/5XN1jh3w/hero.jpg')` }}
         >
             <div className="bg-black bg-opacity-50 w-full h-full absolute top-0 left-0 z-0" />
 

@@ -1,0 +1,100 @@
+🖼️ 3. Home Page Design Sections
+Navbar
+
+Logo ("ShobBazaar" with cart icon)
+
+Links: Home, Shop, Categories, About, Login/Register
+
+Search bar
+
+Cart icon with item count
+
+Hero Section
+
+Big banner with tagline: "সবকিছু এক ছাদের নিচে – ShobBazaar!"
+
+CTA Button: "Shop Now"
+
+Categories Grid
+
+Cards: Electronics, Fashion, Groceries, Mobile, etc.
+
+Icons or images on hover
+
+Featured Products
+
+Horizontal scroll / grid
+
+Add to cart / wishlist
+
+Customer Testimonials
+
+Carousel or grid
+
+Names & ratings
+
+Newsletter Signup
+
+Email input + subscribe button
+
+Footer
+
+About, Contact, Terms, Social Media Icons
+
+🧩 4. Component Breakdown (Frontend - React)
+Navbar.js
+
+ProductCard.js
+
+CategoryCard.js
+
+Footer.js
+
+CartDrawer.js
+
+CheckoutForm.js
+
+ProductDetail.js
+
+DashboardSidebar.js
+
+AdminProductForm.js
+
+Use React Router for navigation, Context API or Redux for cart state, and TailwindCSS for styling.
+
+🗂️ 5. Backend Structure (Express + MongoDB)
+Models:
+
+User (name, email, password, isAdmin)
+
+Product (title, category, price, images, description, stock)
+
+Order (user, products, shipping, payment, status)
+
+Review (user, rating, comment, product)
+
+Routes:
+
+/api/users – Register, login, profile
+
+/api/products – CRUD products
+
+/api/orders – Create order, get orders
+
+/api/reviews – Add/view reviews
+
+Auth: JWT + bcrypt
+Image Upload: Cloudinary or local (for MVP)
+
+✅ 6. Optional Enhancements
+Search with autocomplete
+
+Product filters by price, category, rating
+
+Live chat or support modal
+
+Wishlist management
+
+Admin analytics dashboard
+
+Would you like me to generate a homepage UI mockup or a React code scaffold next?
