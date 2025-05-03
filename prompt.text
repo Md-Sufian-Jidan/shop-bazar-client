@@ -1,0 +1,25 @@
+shop
+
+"Generate a responsive and animated e-commerce Shop Page for a website called 'ShobBazaar', built with React, TailwindCSS, and Framer Motion. The design must follow this UI theme: Primary color: #F97316, Secondary: #10B981, Accent: #1D4ED8, Text: #1F2937, Background: #F9FAFB.
+
+Include:
+
+A product grid using real-world categories for the Bangladeshi market like Mobile Phones, Grocery, Fashion, Electronics, and Kitchen.
+
+Fake product data in JSON (e.g., 'Samsung Galaxy A14', 'Fresh Atta 2kg', 'Panasonic Rice Cooker', etc.) with image URLs, price, category, and rating.
+
+A filter sidebar with options to filter by:
+
+✅ Category (checkboxes or dropdown)
+
+✅ Price range (slider or input fields)
+
+✅ Minimum rating (stars or select)
+
+A search bar with autocomplete (suggestion dropdown as you type product names).
+
+Use Framer Motion for entrance animations of filters and product cards.
+
+Make the layout responsive: 1 column on mobile, 2 on tablet, 3–4 on desktop.
+
+Provide all code in a single modular component, and use reusable components for product card, filter item, and search bar. Avoid external UI libraries besides Tailwind, Framer Motion, and icons like React Icons."**
