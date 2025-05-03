@@ -3,6 +3,7 @@ import Hero from '../Hero/Hero';
 import Categories from '../Categories/Categories';
 import FeaturedProducts from '../FeaturedProduct/FeaturedProduct';
 import CustomerTestimonials from '../CustomerTestimonials/CustomerTestimonials';
+import NewsletterSignup from '../NewsLetterSignUp/NewsLetterSignUp';
 
 const Home = () => {
     return (
@@ -11,6 +12,7 @@ const Home = () => {
             <Categories />
             <FeaturedProducts />
             <CustomerTestimonials />
+            <NewsletterSignup />
         </div>
     );
 };

@@ -1,53 +1,88 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { FiShoppingCart } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
-  const cartItemCount = 3; // Replace with dynamic count from state/context
+  const [isOpen, setIsOpen] = useState(false);
+
+  const links = ["Home", "Shop", "Categories", "About", "Login/Register"];
 
   return (
-    <motion.nav
-      className="bg-white shadow-md sticky top-0 z-50"
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        
+    <header className="bg-white shadow sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2 text-orange-500 font-bold text-2xl">
-          <FiShoppingCart className="text-2xl" />
+        <div className="text-2xl font-bold text-primary flex items-center gap-2">
+          <FiShoppingCart className="text-primary text-2xl" />
           <span>ShobBazaar</span>
-        </Link>
-
-        {/* Navigation Links */}
-        <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
-          <Link to="/">Home</Link>
-          <Link to="/shop">Shop</Link>
-          <Link to="/categories">Categories</Link>
-          <Link to="/about">About</Link>
-          <Link to="/login">Login/Register</Link>
         </div>
 
-        {/* Search + Cart */}
-        <div className="flex items-center space-x-4">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex gap-6 items-center">
+          {links.map((link) => (
+            <a
+              key={link}
+              href={`/${link.toLowerCase().replace(" ", "")}`}
+              className="text-gray-800 hover:text-primary font-medium transition"
+            >
+              {link}
+            </a>
+          ))}
+
+          {/* Search Bar */}
           <input
             type="text"
-            placeholder="Search products..."
-            className="px-3 py-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            placeholder="Search..."
+            className="border rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
-          <Link to="/cart" className="relative">
+
+          {/* Cart Icon */}
+          <div className="relative">
             <FiShoppingCart className="text-2xl text-gray-700" />
-            {cartItemCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
-                {cartItemCount}
-              </span>
-            )}
-          </Link>
-        </div>
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              2
+            </span>
+          </div>
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-2xl text-gray-700"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <FiX /> : <FiMenu />}
+        </button>
       </div>
-    </motion.nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.nav
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-white px-4 pb-4"
+          >
+            <div className="flex flex-col gap-3">
+              {links.map((link) => (
+                <a
+                  key={link}
+                  href={`/${link.toLowerCase().replace(" ", "")}`}
+                  className="text-gray-700 hover:text-primary font-medium"
+                >
+                  {link}
+                </a>
+              ))}
+              <div className="flex items-center gap-2 mt-2">
+                <FiShoppingCart className="text-xl text-gray-700" />
+                <span className="text-sm">Cart (2)</span>
+              </div>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };
 
