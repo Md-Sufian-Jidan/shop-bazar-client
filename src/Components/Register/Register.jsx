@@ -3,32 +3,39 @@ import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import useAuth from "../../Hooks/useAuth";
+import axios from "axios";
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [firebaseError, setFirebaseError] = useState(null);
+    const [serverError, setServerError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-    const { createUser, updateUserProfile } = useAuth();
 
-    const onSubmit = async ({ name, email, password }) => {
+    const onSubmit = async (data) => {
         setLoading(true);
-        setFirebaseError(null);
+        setServerError(null);
+
         try {
-            const result = await createUser(email, password);
-            await updateUserProfile(result.user, { displayName: name });
+            console.log(data);
+            const response = await axios.post("http://localhost:7000/register", data);
+            const { token, user } = response.data;
+
+            // Store JWT in localStorage (you may use cookies instead for security)
+            localStorage.setItem("shobbazaar_token", token);
+            localStorage.setItem("shobbazaar_user", JSON.stringify(user));
+
             navigate("/");
-        } catch (err) {
-            setFirebaseError(err.message);
+        } catch (error) {
+            const msg = error.response?.data?.message || "Registration failed";
+            setServerError(msg);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center px-4">
+        <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center px-4 mb-5">
             <motion.div
                 className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full"
                 initial={{ opacity: 0, y: 50 }}
@@ -39,8 +46,8 @@ const Register = () => {
                     Create your <span className="text-[#F97316]">ShobBazaar</span> account
                 </h2>
 
-                {firebaseError && (
-                    <div className="text-red-500 text-sm mb-4">{firebaseError}</div>
+                {serverError && (
+                    <div className="text-red-500 text-sm mb-4">{serverError}</div>
                 )}
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -102,8 +109,6 @@ const Register = () => {
                         {loading ? "Registering..." : "Register"}
                     </motion.button>
                 </form>
-
-
 
                 {/* Link to Login */}
                 <p className="mt-4 text-sm text-center text-gray-600">

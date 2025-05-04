@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const links = ["Shop", "Categories", "About", "Login"];
+  const links = ["Shop", "Categories", "About", "Login", "Dashboard"];
 
   return (
     <header className="bg-white shadow sticky top-0 z-50">

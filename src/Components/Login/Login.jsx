@@ -35,7 +35,7 @@ const Login = () => {
     };
 
     return (
-        <div className="bg-[#F9FAFB] min-h-screen flex items-center justify-center px-4">
+        <div className="bg-[#F9FAFB] min-h-screen flex items-center justify-center px-4 mb-5">
             <motion.div
                 className="w-full max-w-md bg-white p-8 rounded-lg shadow-md"
                 initial={{ opacity: 0, y: 40 }}
