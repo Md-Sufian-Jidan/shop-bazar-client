@@ -3,24 +3,34 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [firebaseError, setFirebaseError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { createUser } = useAuth();
+    const { signIn, googleSignIn } = useAuth();
 
     const onSubmit = async ({ email, password }) => {
         setLoading(true);
         setFirebaseError(null);
         try {
-            await createUser(email, password);
+            await signIn(email, password);
             navigate("/");
         } catch (err) {
             setFirebaseError(err.message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleGoogleSignup = async () => {
+        try {
+            await googleSignIn();
+            navigate("/");
+        } catch (err) {
+            setFirebaseError(err.message);
         }
     };
 
@@ -81,6 +91,17 @@ const Login = () => {
                         {loading ? "Logging in..." : "Login"}
                     </motion.button>
                 </form>
+
+                {/* Google Signup */}
+                <div className="mt-4">
+                    <button
+                        onClick={handleGoogleSignup}
+                        className="w-full py-2 flex items-center justify-center gap-2 bg-[#10B981] text-white font-semibold rounded-md hover:bg-emerald-600 transition"
+                    >
+                        <FaGoogle />
+                        Sign up with Google
+                    </button>
+                </div>
 
                 {/* Link to Register */}
                 <p className="mt-4 text-sm text-center text-gray-600">
