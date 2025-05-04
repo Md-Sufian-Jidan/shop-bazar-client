@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => (
         <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center gap-2 bg-red-500 text-white font-medium px-4 py-2 rounded-xl shadow-md hover:bg-red-800 transition mt-3"
+            className="flex items-center justify-center gap-2 bg-accent text-white font-medium px-4 py-2 rounded-xl shadow-md hover:bg-blue-800 transition mt-3"
         >
             <FiShoppingCart className="text-xl" />
             Add to Cart

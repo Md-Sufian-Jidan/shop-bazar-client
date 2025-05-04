@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const links = ["Home", "Shop", "Categories", "About", "Login/Register"];
+  const links = ["Shop", "Categories", "About", "Login"];
 
   return (
     <header className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-2xl font-bold text-primary flex items-center gap-2">
+        <Link to={'/'} className="text-2xl font-bold text-primary flex items-center gap-2">
           <FiShoppingCart className="text-primary text-2xl" />
           <span>ShobBazaar</span>
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6 items-center">
