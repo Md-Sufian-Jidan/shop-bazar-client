@@ -6,6 +6,13 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Biodatas', path: '/biodatas' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Contact Us', path: '/contact' },
+];
+
   const links = ["Shop", "Categories", "About", "Login", "Dashboard"];
 
   return (
