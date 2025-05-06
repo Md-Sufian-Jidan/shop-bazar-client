@@ -9,6 +9,7 @@ import Login from "../Components/Login/Login";
 import Register from "../Components/Register/Register";
 import Dashboard from "../Layouts/Dashboard";
 import Profile from "../Pages/Dashboard/Profile/Profile";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -43,13 +44,13 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
             {
                 // index: true,
                 index: true, element: <Navigate to="profile" />
             },
-            { path: "profile", element: <Profile /> },
+            { path: "profile", element: <PrivateRoute><Profile /></PrivateRoute> },
         ]
     }
 ]);

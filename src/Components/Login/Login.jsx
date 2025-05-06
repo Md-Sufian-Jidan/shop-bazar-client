@@ -1,37 +1,92 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { FaGoogle } from "react-icons/fa";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Login = () => {
+    const { signIn, googleSignIn } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [firebaseError, setFirebaseError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const axiosPublic = useAxiosPublic();
+    const location = useLocation();
     const navigate = useNavigate();
-    const { signIn, googleSignIn } = useAuth();
+    const from = location.state?.from?.pathname || "/";
 
-    const onSubmit = async ({ email, password }) => {
+    const onSubmit = async (data) => {
         setLoading(true);
         setFirebaseError(null);
+        if (data.password.length < 6) {
+            return toast.error('Password must be at least 6 characters long');
+        }
+        if (!/[A-Z]/.test(data.password)) {
+            return toast.error('Password must contain at least one uppercase letter');
+        }
+        if (!/[a-z]/.test(data.password)) {
+            return toast.error('Password must contain at least one lowercase letter');
+        }
+        if (!/[0-9]/.test(data.password)) {
+            return toast.error('Password must contain at least one number');
+        }
+
         try {
-            await signIn(email, password);
-            navigate("/");
+            await signIn(data?.email, data?.password)
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User login successfully.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    navigate(from, { replace: true });
+                })
         } catch (err) {
             setFirebaseError(err.message);
         } finally {
             setLoading(false);
         }
+
     };
 
     const handleGoogleSignup = async () => {
         try {
-            await googleSignIn();
-            navigate("/");
+            const result = await googleSignIn();
+            const user = result.user;
+            const saveUser = {
+                name: user.displayName,
+                email: user.email,
+                photo: user.photoURL,
+            };
+            const res = await axiosPublic.post('/user-data', saveUser);
+            if (res.data?.token) {
+                localStorage.setItem("shobbazaar_token", res.data.token);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login successful',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+
+                navigate(from, { replace: true });
+            }
         } catch (err) {
             setFirebaseError(err.message);
+            Swal.fire({
+                icon: 'error',
+                title: err.message,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        } finally {
+            setLoading(false);
         }
+
     };
 
     return (

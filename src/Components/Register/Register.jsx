@@ -1,33 +1,62 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { toast } from 'react-toastify';
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { createUser, updateUserProfile } = useAuth();
     const [serverError, setServerError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const axiosPublic = useAxiosPublic()
+    const location = useLocation();
     const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
 
     const onSubmit = async (data) => {
         setLoading(true);
         setServerError(null);
+        if (data.password.length < 6) {
+            return toast.error('Password must be at least 6 characters long');
+        }
+        if (!/[A-Z]/.test(data.password)) {
+            return toast.error('Password must contain at least one uppercase letter');
+        }
+        if (!/[a-z]/.test(data.password)) {
+            return toast.error('Password must contain at least one lowercase letter');
+        }
+        if (!/[0-9]/.test(data.password)) {
+            return toast.error('Password must contain at least one number');
+        }
 
         try {
-            console.log(data);
-            const response = await axios.post("http://localhost:7000/register", data);
-            const { token, user } = response.data;
-
-            // Store JWT in localStorage (you may use cookies instead for security)
-            localStorage.setItem("shobbazaar_token", token);
-            localStorage.setItem("shobbazaar_user", JSON.stringify(user));
-
-            navigate("/");
+            createUser(data.email, data.password)
+                .then(() => {
+                    updateUserProfile(data.name)
+                        .then(async () => {
+                            const res = await axiosPublic.post("/user-data", data)
+                            if (res.data) {
+                                const { token } = res.data;
+                                localStorage.setItem("shobbazaar_token", token);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'User created successfully.',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                navigate(from, { replace: true });
+                            }
+                        })
+                })
         } catch (error) {
             const msg = error.response?.data?.message || "Registration failed";
+            console.log(error);
             setServerError(msg);
         } finally {
             setLoading(false);

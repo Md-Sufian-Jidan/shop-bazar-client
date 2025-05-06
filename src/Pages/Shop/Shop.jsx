@@ -3,48 +3,25 @@ import { motion } from 'framer-motion';
 import ProductCard from '../../Components/ProductCard/ProductCard';
 import SearchBar from '../../Components/SearchBar/SearchBar';
 import FilterSidebar from './FilterSidebar';
-
-const productData = [
-    {
-        id: 1,
-        name: 'Samsung Galaxy A14',
-        price: 18000,
-        category: 'Mobile Phones',
-        rating: 4,
-        image: 'https://images.samsung.com/is/image/samsung/p6pim/bd/galaxy-a14/gallery/bd-galaxy-a14-5g-sm-a146bzkgxme-thumb-535845946?$344_344_PNG$'
-    },
-    {
-        id: 2,
-        name: 'Fresh Atta 2kg',
-        price: 120,
-        category: 'Grocery',
-        rating: 5,
-        image: 'https://chaldn.com/_mpimage/fresh-atta-2-kg.jpg'
-    },
-    {
-        id: 3,
-        name: 'Panasonic Rice Cooker',
-        price: 3200,
-        category: 'Kitchen',
-        rating: 4,
-        image: 'https://www.panasonic.com/content/dam/pim/bd/en/rice_cooker/sr/sr-wa22hn/ws10008445.jpg'
-    },
-    // Add 17 more fake products here with different categories, prices, and images...
-];
-
-const categories = [...new Set(productData.map(p => p.category))];
+import useProducts from '../../Hooks/useProducts';
 
 const Shop = () => {
+    const { products, isLoading, error } = useProducts();
+    const categories = [...new Set(products.map(p => p.category))];
+
     const [filters, setFilters] = useState({ category: '', rating: 1, maxPrice: 99999 });
     const [query, setQuery] = useState('');
     const [visibleCount, setVisibleCount] = useState(8);
 
-    const filteredProducts = productData.filter(p =>
+    const filteredProducts = products.filter(p =>
         (!filters.category || p.category === filters.category) &&
         (!filters.maxPrice || p.price <= filters.maxPrice) &&
         p.rating >= filters.rating &&
         p.name.toLowerCase().includes(query.toLowerCase())
     );
+
+    if (isLoading) return <p className="text-center">Loading products...</p>;
+    if (error) return <p className="text-center text-red-500">Failed to load products.</p>;
 
     return (
         <div className="bg-background min-h-screen p-4 md:p-8">
