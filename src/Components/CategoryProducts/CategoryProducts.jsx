@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import ProductCard from "../ProductCard/ProductCard";
 
 const CategoryProducts = () => {
     const { name } = useParams();
@@ -21,11 +22,7 @@ const CategoryProducts = () => {
             <h2 className="text-2xl font-bold mb-4">Products in "{name}"</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.map(product => (
-                    <div key={product._id} className="border p-4 rounded">
-                        <img src={product.image} alt={product.name} className="w-full h-40 object-cover" />
-                        <h3 className="mt-2 font-semibold">{product.name}</h3>
-                        <p className="text-sm text-gray-600">{product.price} ৳</p>
-                    </div>
+                    <ProductCard key={product.id} product={product} />
                 ))}
             </div>
         </div>
