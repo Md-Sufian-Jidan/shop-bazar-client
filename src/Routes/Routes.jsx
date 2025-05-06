@@ -10,6 +10,7 @@ import Register from "../Components/Register/Register";
 import Dashboard from "../Layouts/Dashboard";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import PrivateRoute from "./PrivateRoute";
+import CategoryProducts from "../Components/CategoryProducts/CategoryProducts";
 
 export const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
             {
                 path: '/categories',
                 element: <CategoriesPage />
+            },
+            {
+                path: '/products/category/:name',
+                element: <CategoryProducts />
             },
             {
                 path: '/about',

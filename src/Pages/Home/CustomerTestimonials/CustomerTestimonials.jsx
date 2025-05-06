@@ -7,31 +7,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const CustomerTestimonials = () => {
-    const testimonials = [
-        {
-            id: 1,
-            name: "Rahim Uddin",
-            rating: 5,
-            message: "Excellent service and fast delivery. Highly recommended!",
-            photo: "https://randomuser.me/api/portraits/men/32.jpg"
+    const axiosPublic = useAxiosPublic();
+
+    const { data: testimonials = [], isLoading, error } = useQuery({
+        queryKey: ['testimonials'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/testimonials');
+            return res.data;
         },
-        {
-            id: 2,
-            name: "Sabina Akter",
-            rating: 4,
-            message: "Loved the product variety and smooth checkout experience.",
-            photo: "https://randomuser.me/api/portraits/women/44.jpg"
-        },
-        {
-            id: 3,
-            name: "Kamal Hossain",
-            rating: 5,
-            message: "Affordable prices and great customer support. Will shop again!",
-            photo: "https://randomuser.me/api/portraits/men/75.jpg"
-        }
-    ];
+    });
 
     return (
         <section className="bg-white py-12 px-4 md:px-8">

@@ -1,40 +1,19 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const FeaturedProducts = () => {
-    const products = [
-        {
-            id: 1,
-            name: "Smartphone X100",
-            price: 14999,
-            image: "https://source.unsplash.com/300x300/?smartphone",
+    const axiosPublic = useAxiosPublic();
+
+    const { data: products = [], isLoading, error } = useQuery({
+        queryKey: ['featured'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/products/featured');
+            return res.data;
         },
-        {
-            id: 2,
-            name: "Men's Denim Jacket",
-            price: 2999,
-            image: "https://source.unsplash.com/300x300/?jacket",
-        },
-        {
-            id: 3,
-            name: "Organic Rice (5kg)",
-            price: 499,
-            image: "https://source.unsplash.com/300x300/?rice",
-        },
-        {
-            id: 4,
-            name: "Bluetooth Headphones",
-            price: 1999,
-            image: "https://source.unsplash.com/300x300/?headphones",
-        },
-        {
-            id: 5,
-            name: "Toy Robot",
-            price: 899,
-            image: "https://source.unsplash.com/300x300/?toy",
-        },
-    ];
+    });
     return (
         <section className="bg-background py-12 px-4 md:px-8">
             <h2 className="text-3xl font-bold text-textColor mb-6">Featured Products</h2>
