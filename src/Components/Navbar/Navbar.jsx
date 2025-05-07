@@ -5,6 +5,7 @@ import { Menu, X, ShoppingCart } from 'lucide-react';
 import clsx from 'clsx';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import useCart from '../../Hooks/useCart';
 
 
 const navLinks = [
@@ -27,6 +28,7 @@ const linkVariants = {
 const Navbar = () => {
     const { user, logOut } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
+    const { count } = useCart();
     const toggleMenu = () => setMenuOpen((prev) => !prev);
 
     const handleLogout = () => {
@@ -115,7 +117,7 @@ const Navbar = () => {
                     <Link to="/cart" className="relative text-gray-800 hover:text-[#F97316] transition">
                         <ShoppingCart size={24} />
                         <span className="absolute -top-2 -right-2 bg-[#10B981] text-white text-xs rounded-full px-1">
-                            2
+                            {count}
                         </span>
                     </Link>
 
@@ -175,7 +177,7 @@ const Navbar = () => {
                                 onClick={toggleMenu}
                                 className="flex items-center gap-2 text-gray-800 hover:text-[#F97316]"
                             >
-                                <ShoppingCart size={20} /> Cart (2)
+                                <ShoppingCart size={20} /> Cart ({count})
                             </Link>
 
                             {user ? (

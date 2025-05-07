@@ -1,23 +1,13 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import Swal from 'sweetalert2';
-import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import useCart from '../../Hooks/useCart';
 
 const Cart = () => {
-    const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
-
-    const { data: cart = [], isLoading } = useQuery({
-        queryKey: ['cart'],
-        enabled: !!user?.email,
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/cart/${user?.email}`);
-            console.log(res.data);
-            return res.data;
-        },
-    });
+    const { cart, isLoading } = useCart();
 
     const deleteMutation = useMutation({
         mutationFn: async (id) => {
@@ -29,10 +19,25 @@ const Cart = () => {
         },
     });
 
-    // Total price
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMutation.mutate(id);
+            }
+        });
+    }
+
     const totalAmount = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-    // if (isLoading) return <p className="text-center py-10">Loading...</p>;
+    if (isLoading) return <p className="text-center py-10">Loading...</p>;
 
     if (cart.length === 0) {
         return (
@@ -73,7 +78,7 @@ const Cart = () => {
                             <div>
                                 <p className="text-md font-semibold">৳{(item.price * item.quantity).toFixed(2)}</p>
                                 <button
-                                    onClick={() => deleteMutation.mutate(item._id)}
+                                    onClick={() => handleDelete(item._id)}
                                     className="text-red-500 text-sm mt-1 hover:underline"
                                 >
                                     Remove

@@ -4,9 +4,9 @@ import { FiShoppingCart } from 'react-icons/fi';
 import Swal from 'sweetalert2';
 import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import useCart from '../../Hooks/useCart';
 const ProductCard = ({ product }) => {
-    console.log(product);
-
+    const { refetch } = useCart()
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
@@ -35,6 +35,7 @@ const ProductCard = ({ product }) => {
                     timer: 1500,
                     showConfirmButton: false,
                 });
+                refetch();
             }
         } catch (err) {
             Swal.fire({
