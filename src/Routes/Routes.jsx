@@ -11,6 +11,7 @@ import Dashboard from "../Layouts/Dashboard";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import PrivateRoute from "./PrivateRoute";
 import CategoryProducts from "../Components/CategoryProducts/CategoryProducts";
+import Cart from "../Pages/Cart/Cart";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
                 element: <AboutPage />
             },
             {
+                path: '/cart',
+                element: <PrivateRoute><Cart /></PrivateRoute>
+            },
+            {
                 path: '/login',
                 element: <Login />
             },
@@ -55,7 +60,10 @@ export const router = createBrowserRouter([
                 // index: true,
                 index: true, element: <Navigate to="profile" />
             },
-            { path: "profile", element: <PrivateRoute><Profile /></PrivateRoute> },
+            {
+                path: "profile",
+                element: <PrivateRoute><Profile /></PrivateRoute>
+            },
         ]
     }
 ]);
