@@ -1,20 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
 import { FaSpinner } from "react-icons/fa";
-import useAuth from "../../../../Hooks/useAuth";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import useCart from "../../../Hooks/useCart";
 
 const Orders = () => {
-    const { user } = useAuth();
-    const axiosSecure = useAxiosSecure();
+    // const { user } = useAuth();
+    // const axiosSecure = useAxiosSecure();
 
-    const { data: orders = [], isLoading } = useQuery({
-        queryKey: ["orders", user?.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/orders?email=${user.email}`);
-            return res.data;
-        },
-        enabled: !!user?.email
-    });
+    // const { data: orders = [], isLoading } = useQuery({
+    //     queryKey: ["orders", user?.email],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/orders?email=${user.email}`);
+    //         return res.data;
+    //     },
+    //     enabled: !!user?.email
+    // });
+    const { cart: orders, isLoading } = useCart();
 
     if (isLoading) {
         return (

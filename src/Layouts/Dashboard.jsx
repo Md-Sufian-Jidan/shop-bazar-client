@@ -6,7 +6,7 @@ const DashboardLayout = () => {
     { to: "/dashboard/profile", label: "Profile", icon: <FaUser /> },
     { to: "/dashboard/orders", label: "Orders", icon: <FaBox /> },
     { to: "/dashboard/wishlist", label: "Wishlist", icon: <FaHeart /> },
-    { to: "/dashboard/cart", label: "Cart Items", icon: <FaShoppingCart /> },
+    { to: "/dashboard/cartItems", label: "Cart Items", icon: <FaShoppingCart /> },
   ];
 
   return (
