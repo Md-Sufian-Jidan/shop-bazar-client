@@ -12,6 +12,7 @@ import Profile from "../Pages/Dashboard/Profile/Profile";
 import PrivateRoute from "./PrivateRoute";
 import CategoryProducts from "../Components/CategoryProducts/CategoryProducts";
 import Cart from "../Pages/Cart/Cart";
+import Orders from "../Pages/Dashboard/Profile/Orders/Orders";
 
 export const router = createBrowserRouter([
     {
@@ -57,12 +58,16 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
             {
-                // index: true,
-                index: true, element: <Navigate to="profile" />
+                index: true,
+                element: <Navigate to="profile" />
             },
             {
                 path: "profile",
                 element: <PrivateRoute><Profile /></PrivateRoute>
+            },
+            {
+                path: "/dashboard/orders",
+                element: <PrivateRoute><Orders /></PrivateRoute>
             },
         ]
     }
